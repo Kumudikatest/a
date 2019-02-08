@@ -1,0 +1,123 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "c02de900-cbf4-4384-99f6-b69091a39003": {
+        "id": "c02de900-cbf4-4384-99f6-b69091a39003",
+        "parent": null,
+        "name": "a",
+        "type": "DIRECTORY",
+        "isDirectory": true,
+        "children": [
+          "250bcbf0-87aa-459c-8188-88beb7061fd7",
+          "051e313f-e822-4303-9d6b-a676fc3b0dc6"
+        ],
+        "isRemovable": false,
+        "filePath": "a"
+      },
+      "250bcbf0-87aa-459c-8188-88beb7061fd7": {
+        "id": "250bcbf0-87aa-459c-8188-88beb7061fd7",
+        "parent": "c02de900-cbf4-4384-99f6-b69091a39003",
+        "name": "function.js",
+        "type": "LAMBDA_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "a/function.js",
+        "code": "let google = require('googleapis').google;\nlet _auth = require('./Authorizer');\nconst pubsub = google.pubsub('v1');\n\nexports.handler = function (request, response) {\n    pubsub.projects.topics.subscriptions.list({\n        topic: `projects/${process.env.GCP_PROJECT}/topics/cloud-builds`,\n        pageSize: 10\n    })\n        .then(response => {\n            console.log(response.data);  // successful response\n            /*\n            response.data = {\n                \"subscriptions\": [\n                    \"projects/<project>/subscriptions/<subscription-1>\",\n                    \"projects/<project>/subscriptions/<subscription-2>\",\n                    ...\n                ]\n            }\n            */\n        })\n        .catch(err => {\n            console.log(err, err.stack); // an error occurred\n        });\n\n    response.send({ \"message\": \"Successfully executed\" });\n}",
+        "triggers": [
+          {
+            "resourceName": "http-trigger",
+            "config": {}
+          }
+        ],
+        "config": {
+          "runtime": "nodejs8.10",
+          "timeout": 60,
+          "memory": 128,
+          "triggerType": 0
+        }
+      },
+      "8eec0305-7dce-438e-8d54-eaf55504628f": {
+        "id": "8eec0305-7dce-438e-8d54-eaf55504628f",
+        "parent": null,
+        "name": "index.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": false,
+        "filePath": "index.js",
+        "code": "// This file is used to register all your cloud functions in GCP.\n// DO NOT EDIT/DELETE THIS, UNLESS YOU KNOW WHAT YOU ARE DOING.\n\nexports.afunction = require(\"./a/function.js\").handler;",
+        "triggers": []
+      },
+      "051e313f-e822-4303-9d6b-a676fc3b0dc6": {
+        "id": "051e313f-e822-4303-9d6b-a676fc3b0dc6",
+        "parent": "c02de900-cbf4-4384-99f6-b69091a39003",
+        "name": "Authorizer.js",
+        "type": "JS_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "a/Authorizer.js",
+        "code": "const google = require(\"googleapis\").google;\n\ngoogle.options({auth: new google.auth.Compute()});",
+        "triggers": []
+      }
+    },
+    "deletedFiles": [],
+    "rootNode": "c02de900-cbf4-4384-99f6-b69091a39003",
+    "openFiles": [
+      "250bcbf0-87aa-459c-8188-88beb7061fd7"
+    ],
+    "currentFileId": "250bcbf0-87aa-459c-8188-88beb7061fd7",
+    "resources": {
+      "http-trigger": {
+        "name": "http-trigger",
+        "type": "http-trigger",
+        "config": {},
+        "globallyEditable": false
+      },
+      "pubsubcloudBuilds": {
+        "name": "pubsubcloudBuilds",
+        "type": "pubsub",
+        "config": {
+          "mode": 1,
+          "topic": {
+            "name": "cloud-builds",
+            "subscriptions": []
+          }
+        },
+        "globallyEditable": false
+      }
+    },
+    "customTemplate": {
+      "dialect": null,
+      "definitions": {}
+    },
+    "envVariables": [],
+    "packageJSON": {
+      "dependencies": {
+        "googleapis": {
+          "name": "googleapis",
+          "version": "29.0.0",
+          "dev": false,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "projectName": "a",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east1",
+    "platform": "GCP",
+    "platformRegions": {},
+    "lastSave": 1549614820831
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "a",
+      "url": "https://github.com/Kumudikatest/a"
+    }
+  }
+}
